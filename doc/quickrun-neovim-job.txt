@@ -1,6 +1,6 @@
 *quickrun-neovim-jobstart.txt*	An Extension of quickrun for neovim
 
-Version: 0.7.0
+Version: 0.0.1
 Author: TKNGUE <mnct.tkn3011+vim@gmail.com>
 License: zlib License
 
