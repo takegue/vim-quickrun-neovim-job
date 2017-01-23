@@ -1,0 +1,33 @@
+*quickrun-neovim-jobstart.txt*	An Extension of quickrun for neovim
+
+Version: 0.7.0
+Author: TKNGUE <mnct.tkn3011+vim@gmail.com>
+License: zlib License
+
+==============================================================================
+CONTENTS
+
+USAGE			|quickrun-neovim-jobstart-usage|
+
+
+==============================================================================
+USAGE					*quickrun-neovim-jobstart-usage*
+
+Requirement:
+- neovim 
+
+
+						*quickrun-neovim-jobstart-example*
+
+>
+        " To use jobstart runner, you specify the runner on g:quickrun_config
+        let g:quickrun_config['_']['runner'] = 'jobstart' "Set as default runner
+
+
+==============================================================================
+CHANGELOG					*quickrun-neovim-jobstart-changelog*
+
+2017-01-23 Initial commits
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
