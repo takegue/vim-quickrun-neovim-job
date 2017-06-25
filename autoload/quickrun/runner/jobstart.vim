@@ -7,7 +7,7 @@ set cpo&vim
 
 let s:is_win = g:quickrun#V.Prelude.is_windows()
 let s:runner = {
-\ }
+      \ }
 
 function! s:runner.validate() abort
   if !has('nvim')
@@ -18,14 +18,21 @@ endfunction
 function! s:runner.run(commands, input, session) abort
   let command = join(a:commands, ' && ')
   let cmd_arg = s:is_win ? ['cmd.exe', '/c', command]
-  \                      : ['sh', '-c', command]
+        \                      : ['sh', '-c', command]
 
- let s:runner._key = a:session.continue()
- let s:runner._job = jobstart(command, {
+  let s:runner._key = a:session.continue()
+  let options = {
         \ 'on_stdout': function('s:_job_cb'),
         \ 'on_stderr': function('s:_job_cb'),
         \ 'on_exit': function('s:_job_exit_cb'),
-        \ })
+        \ }
+
+  let s:runner._job = jobstart(command, options)
+  if a:input !=# ''
+    call jobsend(s:runner._job, a:input)
+    " call jobclose(s:runner._job)
+  endif
+
 
 endfunction
 
