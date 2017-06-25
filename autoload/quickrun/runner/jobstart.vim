@@ -24,15 +24,13 @@ function! s:runner.run(commands, input, session) abort
   let options = {
         \ 'on_stdout': function('s:_job_cb'),
         \ 'on_stderr': function('s:_job_cb'),
-        \ 'on_exit': function('s:_job_exit_cb'),
+        \ 'on_exit': function('s:_job_cb'),
         \ }
 
   let s:runner._job = jobstart(command, options)
   if a:input !=# ''
     call jobsend(s:runner._job, a:input)
-    " call jobclose(s:runner._job)
   endif
-
 
 endfunction
 
@@ -42,14 +40,17 @@ function! s:sweep() abort
   endif
 endfunction
 
-function! s:_job_cb(channel, message) abort
+function! s:_job_cb(channel, message, event) abort
   let session = quickrun#session(s:runner._key)
-  call session.output(join(a:message, "\n"))
-endfunction
+  echomsg a:channel
 
-function! s:_job_exit_cb(channel, exit_status) abort
-  let session = quickrun#session(s:runner._key)
-  call session.finish(a:exit_status)
+  if a:event == 'stdout'
+    call session.output(join(a:message, "\n"))
+  elseif a:event == 'stderr'
+    call session.output(join(a:message, "\n"))
+  else
+    call session.finish(a:message)
+  end
 endfunction
 
 function! quickrun#runner#jobstart#new() abort
